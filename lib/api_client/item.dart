@@ -18,7 +18,7 @@ class Item {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  const Item._({
+  const Item({
     required this.id,
     required this.title,
     required this.category,
@@ -28,36 +28,22 @@ class Item {
     required this.updatedAt,
   });
 
-  static Item create({
-    required String title,
-    required ItemCategory category,
-    required String content,
-    bool isFavorite = false,
-  }) =>
-      Item._(
-        id: const Uuid(),
-        title: title,
-        category: category,
-        content: content,
-        isFavorite: isFavorite,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
-
   Item copyWith({
+    Uuid? id,
     String? title,
     ItemCategory? category,
     String? content,
     bool? isFavorite,
+    DateTime? createdAt,
     DateTime? updatedAt,
   }) {
-    return Item._(
-      id: id,
+    return Item(
+      id: id ?? this.id,
       title: title ?? this.title,
       category: category ?? this.category,
       content: content ?? this.content,
       isFavorite: isFavorite ?? this.isFavorite,
-      createdAt: createdAt,
+      createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }

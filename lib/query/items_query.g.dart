@@ -6,7 +6,7 @@ part of 'items_query.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$itemsQueryHash() => r'af91ec3b4ff959222bc9036cfb61f06c806336b0';
+String _$itemsQueryHash() => r'50017a6003b342eceb024d8b2c78051693518106';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,21 +29,30 @@ class _SystemHash {
   }
 }
 
-/// See also [itemsQuery].
-@ProviderFor(itemsQuery)
+abstract class _$ItemsQuery
+    extends BuildlessAutoDisposeAsyncNotifier<List<Item>> {
+  late final ItemCategory? category;
+
+  FutureOr<List<Item>> build(
+    ItemCategory? category,
+  );
+}
+
+/// See also [ItemsQuery].
+@ProviderFor(ItemsQuery)
 const itemsQueryProvider = ItemsQueryFamily();
 
-/// See also [itemsQuery].
+/// See also [ItemsQuery].
 class ItemsQueryFamily extends Family<AsyncValue<List<Item>>> {
-  /// See also [itemsQuery].
+  /// See also [ItemsQuery].
   const ItemsQueryFamily();
 
-  /// See also [itemsQuery].
-  ItemsQueryProvider call({
+  /// See also [ItemsQuery].
+  ItemsQueryProvider call(
     ItemCategory? category,
-  }) {
+  ) {
     return ItemsQueryProvider(
-      category: category,
+      category,
     );
   }
 
@@ -52,7 +61,7 @@ class ItemsQueryFamily extends Family<AsyncValue<List<Item>>> {
     covariant ItemsQueryProvider provider,
   ) {
     return call(
-      category: provider.category,
+      provider.category,
     );
   }
 
@@ -71,16 +80,14 @@ class ItemsQueryFamily extends Family<AsyncValue<List<Item>>> {
   String? get name => r'itemsQueryProvider';
 }
 
-/// See also [itemsQuery].
-class ItemsQueryProvider extends AutoDisposeFutureProvider<List<Item>> {
-  /// See also [itemsQuery].
-  ItemsQueryProvider({
+/// See also [ItemsQuery].
+class ItemsQueryProvider
+    extends AutoDisposeAsyncNotifierProviderImpl<ItemsQuery, List<Item>> {
+  /// See also [ItemsQuery].
+  ItemsQueryProvider(
     ItemCategory? category,
-  }) : this._internal(
-          (ref) => itemsQuery(
-            ref as ItemsQueryRef,
-            category: category,
-          ),
+  ) : this._internal(
+          () => ItemsQuery()..category = category,
           from: itemsQueryProvider,
           name: r'itemsQueryProvider',
           debugGetCreateSourceHash:
@@ -106,13 +113,20 @@ class ItemsQueryProvider extends AutoDisposeFutureProvider<List<Item>> {
   final ItemCategory? category;
 
   @override
-  Override overrideWith(
-    FutureOr<List<Item>> Function(ItemsQueryRef provider) create,
+  FutureOr<List<Item>> runNotifierBuild(
+    covariant ItemsQuery notifier,
   ) {
+    return notifier.build(
+      category,
+    );
+  }
+
+  @override
+  Override overrideWith(ItemsQuery Function() create) {
     return ProviderOverride(
       origin: this,
       override: ItemsQueryProvider._internal(
-        (ref) => create(ref as ItemsQueryRef),
+        () => create()..category = category,
         from: from,
         name: null,
         dependencies: null,
@@ -124,7 +138,8 @@ class ItemsQueryProvider extends AutoDisposeFutureProvider<List<Item>> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<Item>> createElement() {
+  AutoDisposeAsyncNotifierProviderElement<ItemsQuery, List<Item>>
+      createElement() {
     return _ItemsQueryProviderElement(this);
   }
 
@@ -142,13 +157,14 @@ class ItemsQueryProvider extends AutoDisposeFutureProvider<List<Item>> {
   }
 }
 
-mixin ItemsQueryRef on AutoDisposeFutureProviderRef<List<Item>> {
+mixin ItemsQueryRef on AutoDisposeAsyncNotifierProviderRef<List<Item>> {
   /// The parameter `category` of this provider.
   ItemCategory? get category;
 }
 
 class _ItemsQueryProviderElement
-    extends AutoDisposeFutureProviderElement<List<Item>> with ItemsQueryRef {
+    extends AutoDisposeAsyncNotifierProviderElement<ItemsQuery, List<Item>>
+    with ItemsQueryRef {
   _ItemsQueryProviderElement(super.provider);
 
   @override
