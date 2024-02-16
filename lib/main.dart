@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod_study/test_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void main() {
@@ -19,29 +20,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.deepPurple,
           ),
         ),
-        home: const ItemListPage(),
-      ),
-    );
-  }
-}
-
-class ItemListPage extends HookConsumerWidget {
-  const ItemListPage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('List Page'),
-      ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('Item $index'),
-            onTap: () {},
-          );
-        },
+        home: const TestPage(),
       ),
     );
   }
